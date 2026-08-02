@@ -1,0 +1,25 @@
+# Copyright 2026 上海如静知华信息科技有限公司
+spring:
+  application:
+    name: zhuatech-agentsec
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/zhuatech_agentsec?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false}
+    username: ${DB_USERNAME:zhuatech}
+    password: ${DB_PASSWORD:zhuatech_dev_password}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: Asia/Shanghai
+  flyway:
+    enabled: true
+server:
+  port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-zhuatech-agentsec-secret-at-least-32-bytes}
+    expiration: PT12H
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:8090}

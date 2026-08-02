@@ -1,0 +1,30 @@
+name: 缺陷证据
+description: 证据可复现的社区源码问题
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: 请勿提交真实供应商、报价、计划、账号或密钥。
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 运行环境
+  - type: checkboxes
+    id: license
+    attributes:
+      label: 使用确认
+      options:
+        - label: 我确认仅用于个人非商业学习交流
+          required: true

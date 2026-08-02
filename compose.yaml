@@ -1,0 +1,39 @@
+# Copyright 2026 上海如静知华信息科技有限公司
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-zhuatech_agentsec}
+      MYSQL_USER: ${MYSQL_USER:-zhuatech}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me-for-local-only}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-root-password}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - agentsec_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-zhuatech_agentsec}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      DB_USERNAME: ${MYSQL_USER:-zhuatech}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-change-me-for-local-only}
+      JWT_SECRET: ${JWT_SECRET:-replace-with-at-least-32-random-characters}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8090}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${WEB_PORT:-8090}:80"
+    depends_on:
+      - backend
+
+volumes:
+  agentsec_mysql_data:

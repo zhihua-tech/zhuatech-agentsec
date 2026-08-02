@@ -1,0 +1,11 @@
+<!-- Copyright 2026 上海如静知华信息科技有限公司 -->
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
+import { domain } from '../config/domain'
+const username=ref('planner'),password=ref('Demo@2026'),busy=ref(false),error=ref(''),router=useRouter(),auth=useAuthStore()
+async function login(){busy.value=true;error.value='';try{await auth.login(username.value,password.value);router.push(username.value==='operator'?'/shopfloor':'/admin')}catch(e){error.value=e.response?.data?.message||'登录失败，请检查账号'}finally{busy.value=false}}
+function choose(type){username.value=type;password.value='Demo@2026';login()}
+</script>
+<template><div class="login" :style="{'--green':domain.theme.primary,'--dark':domain.theme.dark,'--orange':domain.theme.accent}"><div class="login-story"><div class="brand light"><div class="brand-mark">ZH</div><div><b>知华 {{ domain.code }}</b><small>{{ domain.englishName }}</small></div></div><div class="factory-grid"><span v-for="i in 35" :key="i" :class="{on:domain.pattern.includes(i)}"></span></div><div class="story-copy"><span>{{ domain.tagline }}</span><h1 v-html="domain.storyTitle"></h1><p>{{ domain.storyText }}</p></div><div class="story-stats"><div v-for="s in domain.loginStats" :key="s[1]"><b>{{ s[0] }}</b><span>{{ s[1] }}</span></div></div><small class="copyright">© 2026 上海如静知华信息科技有限公司</small></div><div class="login-panel"><div class="login-box"><span class="eyebrow">ZHUATECH {{ domain.code }}</span><h2>进入{{ domain.loginTitle }}</h2><p>登录后按岗位进入业务协同端或管理端</p><label>账号</label><input v-model="username" autocomplete="username"/><label>密码</label><input v-model="password" type="password" autocomplete="current-password" @keyup.enter="login"/><div class="login-options"><label><input type="checkbox" checked/> 记住账号</label><a href="https://www.zhuatech.cn/" target="_blank">部署与授权咨询</a></div><button class="primary full" @click="login" :disabled="busy">{{busy?'正在验证…':'登录系统'}}</button><span class="login-error">{{ error }}</span><div class="demo-select"><span>演示入口</span><button @click="choose('planner')"><b>{{ domain.adminRole }}端</b><small>{{ domain.adminDemo }}</small></button><button @click="choose('operator')"><b>{{ domain.fieldRole }}端</b><small>{{ domain.fieldDemo }}</small></button></div><small class="demo-note">演示密码统一为 Demo@2026</small></div></div></div></template>

@@ -1,0 +1,13 @@
+# Copyright 2026 上海如静知华信息科技有限公司
+.DS_Store
+.idea/
+.vscode/
+.env
+*.log
+backend/target/
+frontend/node_modules/
+frontend/node_modules
+frontend/dist/
+frontend/output/
+output/playwright/
+.playwright-cli/
