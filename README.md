@@ -57,3 +57,7 @@ npm run dev:demo
 | ![微信二维码一](docs/images/zhuatech-wechat-consulting.png) | ![微信二维码二](docs/images/zhuatech-wechat-consulting-2.png) |
 
 关键词：Agent Security、AI Agent 安全、AI 红队、提示注入测试、Agent 工具越权、Agent 沙箱、Java 安全平台、知华科技。
+
+## Agent 工具权限门禁
+
+新增 `POST /api/agentsec/insights/tool-scope-authorization`。运行前比对 Agent 请求权限与已批准权限，结合外部调用、破坏性操作、敏感信息访问和人工确认状态，返回 `ALLOW`、`REVIEW` 或 `DENY` 并列出越权范围，降低工具调用越权和不可逆操作风险。
