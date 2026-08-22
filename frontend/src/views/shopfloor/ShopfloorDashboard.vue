@@ -1,4 +1,4 @@
-<!-- Copyright 2026 上海如静知华信息科技有限公司 -->
+<!-- Copyright 2026 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ -->
 <script setup>
 import AppShell from '../../components/AppShell.vue'
 import MetricGrid from '../../components/MetricGrid.vue'

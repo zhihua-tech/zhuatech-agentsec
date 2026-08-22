@@ -1,4 +1,4 @@
-/* Copyright 2026 上海如静知华信息科技有限公司 */
+/* Copyright 2026 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ */
 package cn.zhuatech.agentsec.common;
 public record ApiResponse<T>(boolean success, String message, T data) {
     public static <T> ApiResponse<T> ok(T data) { return new ApiResponse<>(true, "操作成功", data); }

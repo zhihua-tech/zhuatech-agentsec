@@ -1,5 +1,5 @@
 <script setup>
-/* Copyright 2026 上海如静知华信息科技有限公司 */
+/* Copyright 2026 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ */
 import AppIcon from './AppIcon.vue'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'

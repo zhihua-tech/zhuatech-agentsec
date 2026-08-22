@@ -1,4 +1,4 @@
-/* Copyright 2026 上海如静知华信息科技有限公司 */
+/* Copyright 2026 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ */
 package cn.zhuatech.agentsec.model;
 import jakarta.persistence.*;
 @Entity @Table(name="agentsec_operating_unit") public class OperatingUnit extends BaseEntity {
