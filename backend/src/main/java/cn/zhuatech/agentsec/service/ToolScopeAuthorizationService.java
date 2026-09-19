@@ -10,8 +10,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @Service
 public class ToolScopeAuthorizationService {
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public Result authorize(Request request) {
         Set<String> approved = new HashSet<>(request.approvedScopes());
         List<String> excessScopes = request.requestedScopes().stream()
@@ -30,11 +36,17 @@ public class ToolScopeAuthorizationService {
             request.humanConfirmation(), actions);
     }
 
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record Request(@NotBlank String agentCode,
                           @NotEmpty List<@NotBlank String> requestedScopes,
                           @NotEmpty List<@NotBlank String> approvedScopes,
                           boolean externalWrite, boolean destructiveAction,
                           boolean secretAccess, boolean humanConfirmation) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record Result(String agentCode, String decision, List<String> excessScopes,
                          boolean humanConfirmed, List<String> actions) {}
 }

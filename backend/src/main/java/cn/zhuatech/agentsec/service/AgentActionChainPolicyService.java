@@ -17,9 +17,16 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Set;
 
-/** 在 Agent 执行多步工具链之前识别权限升级、秘密外传和不可逆操作。 */
+/**
+ * 在 Agent 执行多步工具链之前识别权限升级、秘密外传和不可逆操作。
+ *
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @Service
 public class AgentActionChainPolicyService {
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public ChainResult evaluate(ChainRequest request) {
         List<String> blockers = new ArrayList<>();
         List<String> controls = new ArrayList<>();
@@ -77,6 +84,9 @@ public class AgentActionChainPolicyService {
                 List.copyOf(controls), traceDigest(request));
     }
 
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     private String traceDigest(ChainRequest request) {
         String value = request.executionId() + "|" + request.agentCode() + "|" + request.steps().stream()
                 .map(step -> step.sequence() + ":" + step.toolName() + ":" + step.requiredScope())
@@ -89,17 +99,29 @@ public class AgentActionChainPolicyService {
         }
     }
 
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record ChainRequest(@NotBlank String executionId, @NotBlank String agentCode,
             @NotEmpty Set<@NotBlank String> approvedScopes,
             @Min(1) @Max(100) int highRiskStepThreshold,
             @Min(1) @Max(100) int reviewRiskThreshold,
             @NotEmpty List<@Valid ActionStep> steps) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record ActionStep(@Min(1) int sequence, @NotBlank String toolName,
             @NotBlank String requiredScope, boolean argumentsSchemaValid,
             boolean untrustedInput, boolean secretAccess, boolean externalNetwork,
             boolean destinationAllowed, boolean externalWrite, boolean destructive,
             boolean humanApproved) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record ChainResult(Decision decision, int riskScore, List<Integer> highRiskSteps,
             List<String> blockers, List<String> controls, String traceDigest) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public enum Decision { ALLOW, REVIEW, DENY }
 }

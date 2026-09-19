@@ -11,8 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @Configuration
 public class DataInitializer {
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     @Bean
     CommandLineRunner seed(OperatingUnitRepository operatingUnits, WorkRecordRepository orders,
                            ResourceRegisterRepository resources, ReviewRecordRepository reviewRecords,

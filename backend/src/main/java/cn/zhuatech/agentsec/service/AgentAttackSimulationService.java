@@ -9,15 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** 对 Agent 的提示注入、越权工具、敏感信息和持久化风险进行规则化演练评分。 */
+/**
+ * 对 Agent 的提示注入、越权工具、敏感信息和持久化风险进行规则化演练评分。
+ *
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @Service
 public class AgentAttackSimulationService {
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record Request(@NotBlank String agentName, @NotEmpty List<String> attackTypes,
                           boolean toolWriteEnabled, boolean secretAccess,
                           boolean sandboxEnabled, boolean humanApproval, boolean memoryEnabled) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record Result(String agentName, int riskScore, String severity,
                          String releaseDecision, List<String> findings, List<String> mitigations) {}
 
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public Result simulate(Request request) {
         int score = Math.min(35, request.attackTypes().size() * 8);
         List<String> findings = new ArrayList<>();
