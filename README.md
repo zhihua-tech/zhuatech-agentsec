@@ -61,3 +61,7 @@ npm run dev:demo
 ## Agent 工具权限门禁
 
 新增 `POST /api/agentsec/insights/tool-scope-authorization`。运行前比对 Agent 请求权限与已批准权限，结合外部调用、破坏性操作、敏感信息访问和人工确认状态，返回 `ALLOW`、`REVIEW` 或 `DENY` 并列出越权范围，降低工具调用越权和不可逆操作风险。
+
+## Agent 多步工具链风险控制
+
+`POST /api/agentsec/insights/action-chain-policy` 对完整工具调用链检查权限升级、不可信输入、秘密与外部网络组合、外部写入、不可逆操作和人工确认，返回风险分、高风险步骤与 `ALLOW / REVIEW / DENY`。详见[工具链安全门禁](docs/ENTERPRISE_ACTION_CHAIN_POLICY.md)。
