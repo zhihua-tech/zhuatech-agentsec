@@ -23,7 +23,7 @@ services:
       DB_USERNAME: ${MYSQL_USER:-zhuatech}
       DB_PASSWORD: ${MYSQL_PASSWORD:-change-me-for-local-only}
       JWT_SECRET: ${JWT_SECRET:-replace-with-at-least-32-random-characters}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8090}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8090,http://127.0.0.1:8090}
     depends_on:
       mysql:
         condition: service_healthy
