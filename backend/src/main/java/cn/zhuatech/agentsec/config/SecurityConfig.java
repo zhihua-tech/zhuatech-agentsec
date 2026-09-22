@@ -24,5 +24,18 @@ import cn.zhuatech.agentsec.repository.UserRepository; import cn.zhuatech.agents
     /**
      * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
      */
-    @Bean SecurityFilterChain securityFilterChain(HttpSecurity http,JwtAuthenticationFilter filter)throws Exception{return http.csrf(c->c.disable()).cors(c->{ }).sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(a->a.requestMatchers("/api/auth/login","/error").permitAll().requestMatchers(HttpMethod.OPTIONS,"/**").permitAll().anyRequest().authenticated()).addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class).build();}
+    @Bean SecurityFilterChain securityFilterChain(HttpSecurity http,JwtAuthenticationFilter filter)throws Exception{return http.csrf(c->c.disable()).cors(c->{ }).sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(a->a.requestMatchers("/api/auth/login","/error").permitAll().requestMatchers(HttpMethod.OPTIONS,"/**").permitAll().anyRequest().authenticated()).addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class).exceptionHandling(errors -> errors
+                .authenticationEntryPoint((request, response, exception) -> writeError(response, 401, "请先登录或重新登录"))
+                .accessDeniedHandler((request, response, exception) -> writeError(response, 403, "没有操作权限"))).build();}
+
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
+    private static void writeError(jakarta.servlet.http.HttpServletResponse response, int status, String message) throws java.io.IOException {
+        response.setStatus(status);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write("{\"success\":false,\"message\":\"" + message + "\"}");
+    }
+
 }
