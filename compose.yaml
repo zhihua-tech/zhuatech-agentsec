@@ -28,12 +28,18 @@ services:
       mysql:
         condition: service_healthy
 
+    healthcheck:
+      test: ["CMD-SHELL", "if command -v nc >/dev/null 2>&1; then nc -z 127.0.0.1 8080; else bash -c '</dev/tcp/127.0.0.1/8080'; fi"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+      start_period: 15s
   frontend:
     build: ./frontend
     ports:
       - "${WEB_PORT:-8090}:80"
     depends_on:
-      - backend
-
+      backend:
+        condition: service_healthy
 volumes:
   agentsec_mysql_data:
