@@ -1,5 +1,7 @@
 # ZhuaTech AgentSec
 
+[简体中文](README.md) | [English](README.en.md)
+
 ## 把 Agent 当成真实攻击目标来测试
 
 提示注入只是开始。企业 Agent 一旦具备工具写权限、敏感凭证、长期记忆和自主执行能力，风险会沿着模型、工具和业务系统连续传播。ZhuaTech AgentSec 提供威胁建模、攻击用例、隔离执行、轨迹证据、修复复测和发布门禁的一体化参考实现。
