@@ -1,5 +1,9 @@
 [简体中文](README.md) | **English**
 
+## Functional update: Agent execution trace hash chain
+
+Builds a SHA-256 execution trace chain covering sequence, tool name and input/output digests, then compares an independently retained expected root. Hashes are not signatures. Available to signed-in users with editable inputs, explicit validation and JSON export. See [API, examples and limitations](docs/AI_BUSINESS_UPGRADE_20261023.md). No external model calls or automatic business changes. Existing license and contact details are retained.
+
 # ZhuaTech AgentSec
 
 > A source-available enterprise project by [ZhuaTech](https://www.zhuatech.cn/) for enterprise security, identity, compliance, and risk governance.
