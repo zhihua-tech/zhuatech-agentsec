@@ -1,0 +1,25 @@
+/* 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync}from'node:fs';
+const asset=new URL('../public/',import.meta.url);const utils='data:text/javascript;base64,'+Buffer.from(readFileSync(new URL('operations-utils.js',asset),'utf8')).toString('base64');const code=readFileSync(new URL('comparison-format.js',asset),'utf8').replace("'./operations-utils.js'",JSON.stringify(utils));const lib=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+const meta={project:'test',ruleFingerprint:'a'.repeat(64),contractFingerprint:'b'.repeat(64),fields:[{key:'id',label:'编号',type:'ID'},{key:'amount',label:'金额',type:'NUMBER',scale:6,min:'0',max:'99999999999999999'}],columns:[{key:'value',label:'结果值'}]};const input={asOf:'2026-10-24',records:[{id:'A',amount:'9007199254740993.123456'}]};
+test('snapshot includes version and both fingerprints',()=>{const s=lib.makeSnapshot(meta,input);assert.equal(s.format,'zhuatech-review-input/v1');assert.equal(s.ruleFingerprint,meta.ruleFingerprint);assert.equal(s.contractFingerprint,meta.contractFingerprint);assert.equal(s.project,'test');});
+test('snapshot never includes results or credentials',()=>{const s=lib.makeSnapshot(meta,{...input,results:[1],token:'secret'});assert.deepEqual(Object.keys(s).sort(),['format','project','contractFingerprint','ruleFingerprint','scenario'].sort());});
+test('decimal input remains exact text',()=>assert.equal(lib.makeSnapshot(meta,input).scenario.records[0].amount,input.records[0].amount));
+test('snapshot does not mutate current inputs',()=>{const old=JSON.stringify(input);lib.makeSnapshot(meta,input);assert.equal(JSON.stringify(input),old);});
+test('invalid date rejected',()=>assert.throws(()=>lib.makeSnapshot(meta,{...input,asOf:'2026-02-30'})));
+test('duplicate identifiers rejected',()=>assert.throws(()=>lib.makeSnapshot(meta,{...input,records:[input.records[0],{...input.records[0],id:'a'}]})));
+test('UI import cap enforced without truncation',()=>assert.throws(()=>lib.importedScenario(meta,{scenario:{...input,records:Array.from({length:101},(_,i)=>({id:'A'+i,amount:'1'}))}})));
+test('import response missing scenario rejected',()=>assert.throws(()=>lib.importedScenario(meta,{})));
+test('valid import creates independent state',()=>{const checked={scenario:structuredClone(input)};const result=lib.importedScenario(meta,checked);result.records[0].amount='2';assert.equal(checked.scenario.records[0].amount,input.records[0].amount);});
+test('invalid imported field rejected',()=>assert.throws(()=>lib.importedScenario(meta,{scenario:{...input,records:[{id:'A',amount:'NaN'}]}})));
+test('bad rule fingerprint prevents export',()=>assert.throws(()=>lib.makeSnapshot({...meta,ruleFingerprint:'bad'},input)));
+test('missing metadata prevents export',()=>assert.throws(()=>lib.makeSnapshot(null,input)));
+const report={rows:[{id:'ABC-1',kind:'CHANGED',transition:'TIGHTENED',changes:[{field:'value',before:'9007199254740993.123456',after:'9007199254740992.123455',numericDelta:'-1.000001'}]},{id:'DEF-2',kind:'UNCHANGED',transition:'SAME',changes:[]}]};
+test('filters change type',()=>assert.equal(lib.filteredRows(report,'CHANGED').length,1));
+test('search is case insensitive',()=>assert.equal(lib.filteredRows(report,'',' abc ').length,1));
+test('no match produces empty result',()=>assert.equal(lib.filteredRows(report,'','unknown').length,0));
+test('CSV preserves exact large decimal',()=>assert.ok(lib.comparisonCsv(report,meta).includes('9007199254740993.123456')));
+test('CSV neutralizes signed formula-like cells',()=>assert.ok(lib.comparisonCsv(report,meta).includes("'-1.000001")));
+test('CSV includes unchanged rows',()=>assert.ok(lib.comparisonCsv(report,meta).includes('DEF-2')));
+test('CSV is full report independent of filtered copy',()=>{lib.filteredRows(report,'CHANGED');assert.ok(lib.comparisonCsv(report,meta).includes('DEF-2'));});
+test('CSV has BOM and escaped quotes',()=>{const r=structuredClone(report);r.rows[0].changes[0].before='a"b';const csv=lib.comparisonCsv(r,meta);assert.ok(csv.startsWith('\uFEFF'));assert.ok(csv.includes('a""b'));});

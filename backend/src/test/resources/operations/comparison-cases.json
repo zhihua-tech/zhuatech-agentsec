@@ -1,0 +1,93 @@
+[
+  {
+    "patch": {},
+    "expected": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "requestRevision": "4"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "approvalExpiry": "2026-10-22"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "distinctApprovers": "1"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "irreversible": "NO",
+      "distinctApprovers": "1"
+    },
+    "expected": {
+      "decision": "PASS"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "identityBound": "NO"
+    },
+    "expected": {
+      "decision": "HOLD"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  },
+  {
+    "patch": {
+      "approvalExpiry": "2026-10-23"
+    },
+    "expected": {
+      "decision": "PASS"
+    },
+    "error": false,
+    "baseline": {
+      "decision": "PASS",
+      "approvalGap": "#0"
+    }
+  }
+]

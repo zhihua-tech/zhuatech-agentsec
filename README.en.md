@@ -103,3 +103,9 @@ For commercial licensing, private deployment, enterprise customization, software
 ## About ZhuaTech
 
 [ZhuaTech](https://www.zhuatech.cn/) is operated by Shanghai Rujing Zhihua Information Technology Co., Ltd. We support small and medium-sized enterprises with digital transformation, AI adoption, enterprise software implementation, custom development, software project outsourcing, FDE services, OPC integration, and long-term technical support.
+
+## Input comparison and versioned snapshots
+
+The existing **Tool approval revision and expiry checks** calculation now supports a two-scenario workspace at `/comparison.html`. Both sides are recalculated with the current domain algorithm, paired by identifier, and shown with added/removed records, field-level changes and exact decimal deltas. Search, filtering, pagination and complete CSV/JSON exports are available. Versioned input snapshots are validated by the authenticated backend before atomic replacement; failed imports keep current input intact.
+
+Snapshots identify the project, input contract and algorithm version. A less restrictive recommendation does not prove lower real-world risk. Input hashes are not signatures, and response actor/time metadata is not a persisted audit log. No model call or business write is added; this is not whole-system production certification. See [the comparison and API guide](docs/INPUT-COMPARISON.md).

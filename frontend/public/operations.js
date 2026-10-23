@@ -1,6 +1,7 @@
 /* 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/
  * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
 import {buildPayload,csvEncode,paginate,localDate,basicHeader,display,decisionLabels} from './operations-utils.js';
+import {makeSnapshot} from './comparison-format.js';
 const optionLabels={YES:"是",NO:"否"};
 const $=id=>document.getElementById(id);let schema=null,rows=[],report=null,page=1,busy=false,controller=null,ephemeralToken='';$('as-of').value=localDate();
 /** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
@@ -35,3 +36,6 @@ $('export-json').onclick=()=>{if(report)download(JSON.stringify(report,null,2),'
 $('export-csv').onclick=()=>{if(!report)return;const keys=['id','decision',...schema.columns.map(c=>c.key),'reason'];const header=['编号','核算建议',...schema.columns.map(c=>c.label),'核对依据'];download(csvEncode([header,...report.results.map(r=>keys.map(k=>k==='decision'?decisionLabels[r[k]]:display(r[k])))]),'zhuatech-agentsec-review.csv','text/csv;charset=utf-8');};
 window.addEventListener('pagehide',()=>{controller?.abort();ephemeralToken='';$('credential').value='';schema=report=null;rows=[];$('input-body').replaceChildren();$('report').hidden=$('workspace').hidden=true;});
 window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
+
+/** 上海如静知华信息科技有限公司 · https://www.zhuatech.cn/ 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。 */
+$('export-input').onclick=()=>guarded(async()=>{const meta=await request('comparison-contract');const input=buildPayload(schema.fields,rows,$('as-of').value);const snap=makeSnapshot(meta,input);download(JSON.stringify(snap,null,2),'zhuatech-agentsec-input.json','application/json;charset=utf-8');status('已导出版本化输入快照，可在两组输入对照页面导入。请妥善保管业务数据。');});
