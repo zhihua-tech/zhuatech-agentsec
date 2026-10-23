@@ -1,0 +1,96 @@
+{
+  "slug": "agentsec",
+  "title": "工具批准版本与失效时间核对",
+  "fields": [
+    {
+      "key": "id",
+      "label": "记录编号",
+      "type": "ID"
+    },
+    {
+      "key": "requestRevision",
+      "label": "当前请求参数版本",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "1",
+      "max": "1000000"
+    },
+    {
+      "key": "approvedRevision",
+      "label": "已批准参数版本",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "1",
+      "max": "1000000"
+    },
+    {
+      "key": "approvalExpiry",
+      "label": "批准有效至",
+      "type": "DATE"
+    },
+    {
+      "key": "irreversible",
+      "label": "不可逆工具动作",
+      "type": "ENUM",
+      "options": [
+        "YES",
+        "NO"
+      ]
+    },
+    {
+      "key": "distinctApprovers",
+      "label": "独立批准人数",
+      "type": "NUMBER",
+      "scale": 0,
+      "min": "0",
+      "max": "20"
+    },
+    {
+      "key": "identityBound",
+      "label": "批准已绑定身份及工具",
+      "type": "ENUM",
+      "options": [
+        "YES",
+        "NO"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "key": "revisionMismatch",
+      "label": "批准版本不符"
+    },
+    {
+      "key": "approvalExpired",
+      "label": "批准已到期"
+    },
+    {
+      "key": "requiredApprovers",
+      "label": "要求独立批准人数"
+    },
+    {
+      "key": "approvalGap",
+      "label": "批准人数缺口"
+    }
+  ],
+  "description": "核对请求绑定版本与批准版本是否一致、授权到期及不可逆动作的双人批准，版本不符不得沿用旧批准。不签发或执行工具令牌。",
+  "owner": "上海如静知华信息科技有限公司",
+  "website": "https://www.zhuatech.cn/",
+  "authorization": "商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。",
+  "version": 1,
+  "notes": "输入均须为已获授权的同口径数据。金额固定人民币元；比例为百分数。核算结果只用于复核，未审批、未写库、未发起外部调用，也未触发付款、签名、资料销毁或设备控制。建议不构成法律、安全、会计或碳核证结论。",
+  "sample": {
+    "asOf": "2026-10-23",
+    "records": [
+      {
+        "id": "ITEM-001",
+        "requestRevision": "3",
+        "approvedRevision": "3",
+        "approvalExpiry": "2026-10-24",
+        "irreversible": "YES",
+        "distinctApprovers": "2",
+        "identityBound": "YES"
+      }
+    ]
+  }
+}
